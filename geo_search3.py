@@ -6,14 +6,17 @@
 import http.client
 import json
 from urllib.parse import quote_plus
+import time
 
 base = 'maps/api/geocode/json'
 
 def geocode(address):
-    path = '{}?address={}&sensor=false'.format(base,quote_plus(address))
-    connection = http.client.HTTPConnection('maps.google.com')
+    path = '{0}?address={1}&sensor=false'.format(base,quote_plus(address))
+    connection = http.client.HTTPConnection('maps.google.com',timeout=5)
     connection.request('GET',path)
+    time.sleep(1)
     raw_replay = connection.getresponse().read()
+    print(raw_replay)
     replay = json.load(raw_replay.decode('utf-8'))
     print(replay['results'][0]['geometry']['location'])
 
