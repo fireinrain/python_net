@@ -3,6 +3,7 @@
 # Written by liuzhaoyang
 # wcontact:liu575563079@gmail.com
 
+# 使用python标准库，如http，urllib来向谷歌api发送请求，获取数据
 import http.client
 import json
 from urllib.parse import quote_plus

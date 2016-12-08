@@ -2,6 +2,8 @@
 # _encoding:utf-8_
 # Written by liuzhaoyang
 # wcontact:liu575563079@gmail.com
+# 使用套接字向谷歌地图api发送请求，
+#并获取响应
 import socket
 from urllib.parse import quote_plus
 

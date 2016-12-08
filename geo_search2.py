@@ -3,6 +3,8 @@
 # Written by liuzhaoyang
 # wcontact:liu575563079@gmail.com
 
+# 使用requests模块来访问谷歌地图的api，并接受返回的json数据
+# 解析出来
 import requests
 
 def geocode(address):
