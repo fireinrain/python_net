@@ -31,25 +31,37 @@ def server(interface,port):
 
 
 # 客户端
-def client(port):
+def client(hostname,port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    # text = '时间是：{}'.format(datetime.now())
-    while True:
-        text = input('请发送对话：')
-        data = text.encode('utf-8')
+    hostname = sys.argv[2]
+    sock.connect((hostname,port))
+    print('client socket name is{}'.format(sock.getsockname()))
 
-        sock.sendto(data, ('127.0.0.1', port))
-        print('操作系统在{}认证'.format(sock.getsockname()))
-        data, address = sock.recvfrom(MAX_BYTES)
-        text = data.decode('utf-8')
-        print('服务器{}返回的数据：{}'.format(address, text))
+    delay = 0.1
+    text = 'this is another message'
+    data = text.encode('utf-8')
+
+    while True:
+        sock.send(data)
+        print('正在等待{}秒'.format(delay))
+        sock.settimeout(delay)
+        try:
+            data = sock.recv(MAX_BYTES)
+        except sock.timeout:
+            delay *= 2
+            if delay > 2.0:
+                raise RuntimeError
+        else:
+            break
+    print('the server say {}'.format(data.decode('utf-8')))
 
 
 if __name__ == '__main__':
     choices = {'client': client, 'server': server}
     parser = argparse.ArgumentParser(description='在本地发送udp数据包')
     parser.add_argument('role', choices=choices, help='which role to play')
+    parser.add_argument('help',help='interface the server listen at')
     parser.add_argument('-p', metavar='PORT', type=int, default=1060, help='udp port(default 1060)')
     args = parser.parse_args()
     function = choices[args.role]
-    function(args.p)
+    function(args.host,args.p)
