@@ -40,7 +40,6 @@ def client(hostname,port):
     delay = 0.1
     text = 'this is another message'
     data = text.encode('utf-8')
-
     while True:
         sock.send(data)
         print('正在等待{}秒'.format(delay))
