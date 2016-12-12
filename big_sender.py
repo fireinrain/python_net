@@ -6,6 +6,7 @@
 # 发送大型的udp数据包
 
 import IN,argparse,socket
+# 好像并没有这个IN模块？？
 
 if not hasattr(IN,'IP_MTU'):
     raise RuntimeError('can not perform MTU discovery on this cmbination of operating system and python distrubution')
@@ -26,4 +27,7 @@ def send_big_datagram(host,port):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='send udp packet to get mtu')
-    parser.add_argument()
+    parser.add_argument('host',help='the host which to target the packet')
+    parser.add_argument('-p',metavar='PORT',type=int,default=1060,help='udp port (default port 1060)')
+    args = parser.parse_args()
+    send_big_datagram(args.host,args.p)
